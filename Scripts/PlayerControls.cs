@@ -12,6 +12,7 @@ public class PlayerControls : MonoBehaviour
     [SerializeField] private KeyCode _moveLeft;
     [SerializeField] private KeyCode _moveRight;
     [SerializeField] private KeyCode _jump;
+    [SerializeField] private KeyCode _dive;
     [SerializeField] private float _maxVelocity;
     [SerializeField] private float _movePower;
     [SerializeField] private float _jumpPower;
@@ -57,8 +58,11 @@ public class PlayerControls : MonoBehaviour
         
         if (Input.GetKey(_moveRight))
             MoveRight();
+        
+        if (Input.GetKey(_dive))
+            Dive();
 
-        if (Input.GetKey(_moveRight) == false && Input.GetKey(_moveLeft) == false && _rigidbody.velocity.x != 0f)
+        if (Input.GetKey(_moveRight) == false && Input.GetKey(_moveLeft) == false && Input.GetKey(_dive) == false && _rigidbody.velocity.x != 0f)
             SlowDown();
 
         if (_rigidbody.velocity.x != 0)
@@ -96,6 +100,11 @@ public class PlayerControls : MonoBehaviour
         Vector3 scale = transform.localScale;
         scale.x = 1f;
         transform.localScale = scale;
+    }
+
+    private void Dive()
+    {
+        _rigidbody.velocity += Vector2.down * _movePower * Time.deltaTime;
     }
 
     private bool IsGrounded()

@@ -3353,6 +3353,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 68010089009023395, guid: 4be04cbcb519183438ca2968560553bd, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6375834874080754862, guid: 4be04cbcb519183438ca2968560553bd, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -4260,8 +4264,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b39ad729b320bb04fb5760c21ad83ae7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _coin: {fileID: 243812322, guid: 57f42a6fc2e5bf947a762dced8040398, type: 3}
   _spawnDelay: 2
+  _coin: {fileID: 243812322, guid: 57f42a6fc2e5bf947a762dced8040398, type: 3}
   _counter: {fileID: 1230447227}
 --- !u!4 &1975605316 stripped
 Transform:
