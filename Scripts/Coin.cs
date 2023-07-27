@@ -7,6 +7,7 @@ using UnityEngine.Events;
 public class Coin : MonoBehaviour
 {
     [SerializeField] private UnityEvent _coinCollected;
+    
     private CoinSpawnpoint _spawnpoint;
     
     public void Init(CoinSpawnpoint spawnpoint)

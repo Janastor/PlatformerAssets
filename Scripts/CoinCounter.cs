@@ -7,8 +7,8 @@ using UnityEngine;
 
 public class CoinCounter : MonoBehaviour
 {
-    private int _coinCount = 0;
     private TextMeshProUGUI _text;
+    private int _coinCount = 0;
     private string _displayText = "Coins: ";
 
     public void AddCoin()

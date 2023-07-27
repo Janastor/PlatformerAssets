@@ -6,9 +6,10 @@ using Random = System.Random;
 
 public class CoinSpawner : MonoBehaviour
 {
-    [SerializeField] private Coin _coin;
     [SerializeField] private float _spawnDelay;
+    [SerializeField] private Coin _coin;
     [SerializeField] private CoinCounter _counter;
+    
     private static Random _random = new Random();
     private CoinSpawnpoint[] _spawnPoints = { };
     private int _minRandom = 0;

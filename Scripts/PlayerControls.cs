@@ -18,12 +18,16 @@ public class PlayerControls : MonoBehaviour
     [SerializeField] private float _drag;
     [SerializeField] private ContactFilter2D _jumpableSurface;
 
+    private const string AnimationDeath = "death";
+    private const string AnimationIsRunning = "isRunning";
+    private const string AnimationIsGrounded = "isGrounded";
+    private const string AnimationJump = "jump";
+
     private float _distanceToJump = 0.1f;
     private float _horizontal;
     private readonly RaycastHit2D[] _raycastHits = new RaycastHit2D[1];
     private Animator _animator;
     private bool _isAlive = true;
-
     private Rigidbody2D _rigidbody;
 
     public void Die()
@@ -31,7 +35,7 @@ public class PlayerControls : MonoBehaviour
         if (_isAlive == false)
             return;
         
-        _animator.SetTrigger("death");
+        _animator.SetTrigger(AnimationDeath);
         StartCoroutine(Death());
         enabled = false;
         _isAlive = false;
@@ -58,14 +62,14 @@ public class PlayerControls : MonoBehaviour
             SlowDown();
 
         if (_rigidbody.velocity.x != 0)
-            _animator.SetTrigger("isRunning");
+            _animator.SetTrigger(AnimationIsRunning);
         else
-            _animator.ResetTrigger("isRunning");
+            _animator.ResetTrigger(AnimationIsRunning);
         
         if (IsGrounded())
-            _animator.SetTrigger("isGrounded");
+            _animator.SetTrigger(AnimationIsGrounded);
         else
-            _animator.ResetTrigger("isGrounded");
+            _animator.ResetTrigger(AnimationIsGrounded);
     }
 
     private void SlowDown()
@@ -105,7 +109,7 @@ public class PlayerControls : MonoBehaviour
         if (IsGrounded())
         {
             _rigidbody.velocity = new Vector2(_rigidbody.velocity.x, _jumpPower);
-            _animator.SetTrigger("jump");
+            _animator.SetTrigger(AnimationJump);
         }
     }
 
