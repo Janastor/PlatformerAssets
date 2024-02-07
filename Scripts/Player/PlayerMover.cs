@@ -26,9 +26,9 @@ public class PlayerMover : MonoBehaviour
     private const string AnimationIsGrounded = "isGrounded";
     private const string AnimationJump = "jump";
 
+    private readonly RaycastHit2D[] _raycastHits = new RaycastHit2D[1];
     private float _groundGapToJump = 0.1f;
     private float _horizontal;
-    private readonly RaycastHit2D[] _raycastHits = new RaycastHit2D[1];
     private bool _isAlive = true;
     private Rigidbody2D _rigidbody;
     private Transform _spriteTransform;
