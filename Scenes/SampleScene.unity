@@ -3456,6 +3456,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6375834874014860862, guid: 4be04cbcb519183438ca2968560553bd, type: 3}
+      propertyPath: _speed
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 6375834874080754862, guid: 4be04cbcb519183438ca2968560553bd, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -3506,7 +3510,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6375834874080754863, guid: 4be04cbcb519183438ca2968560553bd, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3719,7 +3723,7 @@ GameObject:
   - component: {fileID: 1230447225}
   - component: {fileID: 1230447227}
   m_Layer: 5
-  m_Name: Text
+  m_Name: CoinCounterText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4446,6 +4450,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6375834874014860862, guid: 4be04cbcb519183438ca2968560553bd, type: 3}
+      propertyPath: _speed
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6375834874014860862, guid: 4be04cbcb519183438ca2968560553bd, type: 3}
+      propertyPath: _moveTime
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 6375834874080754862, guid: 4be04cbcb519183438ca2968560553bd, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -4496,7 +4508,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6375834874080754863, guid: 4be04cbcb519183438ca2968560553bd, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6375834874383999699, guid: 4be04cbcb519183438ca2968560553bd, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4568,7 +4580,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _spawnDelay: 2
-  _coin: {fileID: 243812322, guid: 57f42a6fc2e5bf947a762dced8040398, type: 3}
+  _coinPrefab: {fileID: 243812322, guid: 57f42a6fc2e5bf947a762dced8040398, type: 3}
   _counter: {fileID: 1230447227}
 --- !u!4 &1975605316 stripped
 Transform:
@@ -5860,6 +5872,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6375834874014860862, guid: 4be04cbcb519183438ca2968560553bd, type: 3}
+      propertyPath: _speed
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 6375834874080754862, guid: 4be04cbcb519183438ca2968560553bd, type: 3}
       propertyPath: m_RootOrder
       value: 4
@@ -5910,7 +5926,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6375834874080754863, guid: 4be04cbcb519183438ca2968560553bd, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6375834874383999699, guid: 4be04cbcb519183438ca2968560553bd, type: 3}
       propertyPath: m_LocalPosition.x
@@ -5994,6 +6010,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 8678440815769564065, guid: 99a50bc06557a3644a490bb4550122ed, type: 3}
+      propertyPath: _coinCounter
+      value: 
+      objectReference: {fileID: 1230447227}
     - target: {fileID: 8678440815769564120, guid: 99a50bc06557a3644a490bb4550122ed, type: 3}
       propertyPath: m_Name
       value: Player

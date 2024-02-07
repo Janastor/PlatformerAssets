@@ -13,6 +13,8 @@ public class CoinSpawner : MonoBehaviour
     private CoinSpawnpoint[] _availableSpawnPoints;
     private int _minRandom = 0;
     private int _maxRandom;
+    private bool _isWorking = true;
+    private Coroutine _spawnCoinLoopCoroutine;
 
     private void Start()
     {
@@ -22,11 +24,11 @@ public class CoinSpawner : MonoBehaviour
         {
             spawnpoint.Init(_coinPrefab);
         }
-        
-        SpawnInRandomSpawner();
+
+        _spawnCoinLoopCoroutine = StartCoroutine(SpawningLoop());
     }
 
-    private void SpawnInRandomSpawner()
+    private void TrySpawnInRandomSpawner()
     {
         _availableSpawnPoints = _spawnPoints.Where(s => s.IsCoinSpawned == false).ToArray();
         
@@ -36,13 +38,17 @@ public class CoinSpawner : MonoBehaviour
         _maxRandom = _availableSpawnPoints.Length;
         CoinSpawnpoint randomSpawnPoint = _availableSpawnPoints[Random.Range(_minRandom, _maxRandom)];
         randomSpawnPoint.SpawnCoin();
-
-        StartCoroutine(SpawnTimer());
     }
 
-    private IEnumerator SpawnTimer()
+    private IEnumerator SpawningLoop()
     {
-        yield return new WaitForSeconds(_spawnDelay);
-        SpawnInRandomSpawner();
+        WaitForSeconds delay = new WaitForSeconds(_spawnDelay);
+        
+        while (_isWorking)
+        {
+            TrySpawnInRandomSpawner();
+            
+            yield return delay;
+        }
     }
 }

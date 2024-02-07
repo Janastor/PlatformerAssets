@@ -16,7 +16,7 @@ public class CoinSpawnpoint : MonoBehaviour
     
     public void SpawnCoin()
     {
-        Coin coin = Instantiate(_coinPrefab, transform.position, Quaternion.identity, transform.parent);
+        Coin coin = Instantiate(_coinPrefab, transform.position, Quaternion.identity, transform);
         coin.Init(this);
         coin.PickedUp += OnCoinPickedUp;
         _isCoinSpawned = true;
