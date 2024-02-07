@@ -119,6 +119,7 @@ GameObject:
   - component: {fileID: 8678440815769564127}
   - component: {fileID: 8678440815769564126}
   - component: {fileID: 8678440815769564065}
+  - component: {fileID: 941934844704736023}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -232,7 +233,7 @@ MonoBehaviour:
   _jump: 273
   _maxVelocity: 4
   _movePower: 500
-  _jumpPower: 230
+  _jumpPower: 12
   _drag: 1
   _jumpableSurface:
     useTriggers: 0
@@ -261,3 +262,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _coinCounter: {fileID: 0}
+--- !u!114 &941934844704736023
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8678440815769564120}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7b8a75765c97514dbe92212c55d7d4e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _animator: {fileID: 748167593335615688}

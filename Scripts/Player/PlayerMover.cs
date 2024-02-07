@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(Player))]
@@ -30,10 +31,22 @@ public class PlayerMover : MonoBehaviour
     private float _groundGapToJump = 0.1f;
     private float _horizontal;
     private bool _isAlive = true;
+    private bool _wasGrounded;
+    private bool _isGrounded;
+    private bool _wasRunning;
+    private bool _isRunning;
     private Rigidbody2D _rigidbody;
     private Transform _spriteTransform;
     private float _moveDirectionRight = 1;
     private float _moveDirectionLeft = -1;
+    
+    public event UnityAction StartedRunning;
+    public event UnityAction StoppedRunning;
+    public event UnityAction<float> ChangedDirection;
+    public event UnityAction Jumped;
+    public event UnityAction Landed;
+    public event UnityAction Ungrounded;
+    public event UnityAction Died;
 
     public void Die()
     {
@@ -71,15 +84,42 @@ public class PlayerMover : MonoBehaviour
         if (Input.GetKey(_moveRight) && Input.GetKey(_moveLeft))
             SlowDown();
 
-        if (_rigidbody.velocity.x != 0)
-            _animator.SetTrigger(AnimationIsRunning);
-        else
-            _animator.ResetTrigger(AnimationIsRunning);
+        LandedEventCheck();
+        RunningEventCheck();
         
-        if (IsGrounded())
-            _animator.SetTrigger(AnimationIsGrounded);
-        else
-            _animator.ResetTrigger(AnimationIsGrounded);
+        print(IsGrounded());
+    }
+
+    private void UngroundedEventChech()
+    {
+        
+    }
+
+    private void LandedEventCheck()
+    {
+        _isGrounded = IsGrounded();
+        
+        if (_isGrounded && _wasGrounded == false)
+            Landed?.Invoke();
+        
+        if (_isGrounded == false && _wasGrounded)
+            Ungrounded?.Invoke();
+        
+        _wasGrounded = _isGrounded;
+    }
+
+    private void RunningEventCheck()
+    {
+        _isRunning = _rigidbody.velocity.x != 0;
+        
+        if (_isRunning && _wasRunning == false)
+            StartedRunning?.Invoke();
+        
+        
+        if (_isRunning == false && _wasRunning == true)
+            StoppedRunning?.Invoke();
+        
+        _wasRunning = _isRunning;
     }
 
     private void SlowDown()
@@ -93,14 +133,13 @@ public class PlayerMover : MonoBehaviour
         if (Mathf.Abs(_rigidbody.velocity.x) <= _maxVelocity)
             _rigidbody.AddForce(Vector2.right * moveDirection * _movePower, ForceMode2D.Force);
 
-        Vector3 scale = transform.localScale;
-        scale.x = moveDirection;
-        _animator.transform.localScale = scale;
+        ChangedDirection?.Invoke(moveDirection);
     }
 
     private bool IsGrounded()
     {
         int contactCount = _rigidbody.Cast(Vector2.down, _jumpableSurface, _raycastHits, _groundGapToJump);
+        
         return (contactCount > 0);
     }
 
@@ -108,8 +147,8 @@ public class PlayerMover : MonoBehaviour
     {
         if (IsGrounded())
         {
-            _rigidbody.AddForce(Vector2.up * _jumpPower, ForceMode2D.Impulse);
-            _animator.SetTrigger(AnimationJump);
+            _rigidbody.velocity += Vector2.up * _jumpPower;
+            Jumped?.Invoke();
         }
     }
 
