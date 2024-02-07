@@ -16,7 +16,7 @@ public class EnemyMover : MonoBehaviour
     {
         _initialPosition = _firstPoint.position;
         _targetPosition = _secondPoint.position;
-        transform.position = _firstPoint.position;
+        transform.position = _initialPosition;
     }
     
     private void Update()

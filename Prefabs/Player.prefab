@@ -227,14 +227,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9293347b43055e14db7abdc517c14983, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _animator: {fileID: 748167593335615688}
   _moveLeft: 276
   _moveRight: 275
   _jump: 273
   _maxVelocity: 4
   _movePower: 500
   _jumpPower: 12
-  _drag: 1
+  _dragAmount: 1
   _jumpableSurface:
     useTriggers: 0
     useLayerMask: 1

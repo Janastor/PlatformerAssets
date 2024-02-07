@@ -23,9 +23,7 @@ public class Player : MonoBehaviour
         }
 
         if (collision.CompareTag("PlayerKiller"))
-        {
             Die();
-        }
     }
 
     private void Die()

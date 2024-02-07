@@ -18,19 +18,14 @@ public class PlayerMover : MonoBehaviour
     [SerializeField] private float _maxVelocity;
     [SerializeField] private float _movePower;
     [SerializeField] private float _jumpPower;
-    [SerializeField] private float _drag;
+    [SerializeField] private float _dragAmount;
     [SerializeField] private ContactFilter2D _jumpableSurface;
-
-    private const string AnimationDeath = "death";
-    private const string AnimationIsRunning = "isRunning";
-    private const string AnimationIsGrounded = "isGrounded";
-    private const string AnimationJump = "jump";
-
-    private Player _player;
+    
     private readonly RaycastHit2D[] _raycastHits = new RaycastHit2D[1];
-    private float _groundGapToJump = 0.1f;
-    private float _horizontal;
     private Rigidbody2D _rigidbody;
+    private Player _player;
+    private float _groundGapToJump = 0.1f;
+    private float _rbDragAfterDeath = 1;
     private Transform _spriteTransform;
     private float _moveDirectionRight = 1;
     private float _moveDirectionLeft = -1;
@@ -112,7 +107,7 @@ public class PlayerMover : MonoBehaviour
 
     private void SlowDown()
     {
-        Vector2 velocity = Vector2.MoveTowards(_rigidbody.velocity, new Vector2(0, _rigidbody.velocity.y), _drag);
+        Vector2 velocity = Vector2.MoveTowards(_rigidbody.velocity, new Vector2(0, _rigidbody.velocity.y), _dragAmount);
         _rigidbody.velocity = velocity;
     }
 
@@ -148,6 +143,8 @@ public class PlayerMover : MonoBehaviour
             {
                 SlowDown();
             }
+
+            _rigidbody.drag = _rbDragAfterDeath;
             
             yield return null;
         }
