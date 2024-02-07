@@ -29,6 +29,7 @@ public class PlayerAnimator : MonoBehaviour
         _playerMover.Jumped += PlayJumpAnimation;
         _playerMover.Landed += StopAirborneAnimation;
         _playerMover.Ungrounded += PlayAirborneAnimation;
+        _player.Died += PlayDeathAnimation;
     }
 
     private void ChangeDirection(float direction)

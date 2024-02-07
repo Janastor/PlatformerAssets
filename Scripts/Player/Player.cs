@@ -10,7 +10,9 @@ public class Player : MonoBehaviour
 {
     [SerializeField] private CoinCounter _coinCounter;
 
-    private bool _isAlive;
+    private bool _isAlive = true;
+
+    public event UnityAction Died;
     
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -19,5 +21,19 @@ public class Player : MonoBehaviour
             _coinCounter.AddCoin();
             coin.PickUp();
         }
+
+        if (collision.CompareTag("PlayerKiller"))
+        {
+            Die();
+        }
+    }
+
+    private void Die()
+    {
+        if (_isAlive == false)
+            return;
+        
+        Died?.Invoke();
+        _isAlive = false;
     }
 }

@@ -10,7 +10,6 @@ using UnityEngine.Events;
 
 public class PlayerMover : MonoBehaviour
 {
-    [SerializeField] private Animator _animator;
     [Header("Controls")]
     [SerializeField] private KeyCode _moveLeft;
     [SerializeField] private KeyCode _moveRight;
@@ -27,18 +26,18 @@ public class PlayerMover : MonoBehaviour
     private const string AnimationIsGrounded = "isGrounded";
     private const string AnimationJump = "jump";
 
+    private Player _player;
     private readonly RaycastHit2D[] _raycastHits = new RaycastHit2D[1];
     private float _groundGapToJump = 0.1f;
     private float _horizontal;
-    private bool _isAlive = true;
-    private bool _wasGrounded;
-    private bool _isGrounded;
-    private bool _wasRunning;
-    private bool _isRunning;
     private Rigidbody2D _rigidbody;
     private Transform _spriteTransform;
     private float _moveDirectionRight = 1;
     private float _moveDirectionLeft = -1;
+    private bool _wasGrounded;
+    private bool _isGrounded;
+    private bool _wasRunning;
+    private bool _isRunning;
     
     public event UnityAction StartedRunning;
     public event UnityAction StoppedRunning;
@@ -46,22 +45,18 @@ public class PlayerMover : MonoBehaviour
     public event UnityAction Jumped;
     public event UnityAction Landed;
     public event UnityAction Ungrounded;
-    public event UnityAction Died;
 
-    public void Die()
+    private void Die()
     {
-        if (_isAlive == false)
-            return;
-        
-        _animator.SetTrigger(AnimationDeath);
         StartCoroutine(DeathSequence());
         enabled = false;
-        _isAlive = false;
     }
     
     private void Start()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
+        _player = GetComponent<Player>();
+        _player.Died += Die;
     }
 
     private void Update()
@@ -86,13 +81,6 @@ public class PlayerMover : MonoBehaviour
 
         LandedEventCheck();
         RunningEventCheck();
-        
-        print(IsGrounded());
-    }
-
-    private void UngroundedEventChech()
-    {
-        
     }
 
     private void LandedEventCheck()
@@ -158,8 +146,7 @@ public class PlayerMover : MonoBehaviour
         {
             if (IsGrounded())
             {
-                Vector2 velocity = Vector2.MoveTowards(_rigidbody.velocity, new Vector2(0, _rigidbody.velocity.y), _drag);
-                _rigidbody.velocity = velocity;
+                SlowDown();
             }
             
             yield return null;

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class EnemyPatrol : MonoBehaviour
+public class EnemyMover : MonoBehaviour
 {
     [SerializeField] private Transform _firstPoint;
     [SerializeField] private Transform _secondPoint;
