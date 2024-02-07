@@ -8,8 +8,8 @@ public class KillPlayerOnTouch : MonoBehaviour
     {
         if (collision.TryGetComponent<Player>(out Player player))
         {
-            PlayerControls playerControls = player.GetComponent<PlayerControls>();
-            playerControls.Die();
+            PlayerMover playerMover = player.GetComponent<PlayerMover>();
+            playerMover.Die();
         }
     }
 }

@@ -5,14 +5,16 @@ using Unity.VisualScripting;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
-[RequireComponent(typeof(Animator))]
+[RequireComponent(typeof(Player))]
 
-public class PlayerControls : MonoBehaviour
+public class PlayerMover : MonoBehaviour
 {
+    [SerializeField] private Animator _animator;
+    [Header("Controls")]
     [SerializeField] private KeyCode _moveLeft;
     [SerializeField] private KeyCode _moveRight;
     [SerializeField] private KeyCode _jump;
-    [SerializeField] private KeyCode _dive;
+    [Header("Movement")]
     [SerializeField] private float _maxVelocity;
     [SerializeField] private float _movePower;
     [SerializeField] private float _jumpPower;
@@ -24,12 +26,14 @@ public class PlayerControls : MonoBehaviour
     private const string AnimationIsGrounded = "isGrounded";
     private const string AnimationJump = "jump";
 
-    private float _distanceToJump = 0.1f;
+    private float _groundGapToJump = 0.1f;
     private float _horizontal;
     private readonly RaycastHit2D[] _raycastHits = new RaycastHit2D[1];
-    private Animator _animator;
     private bool _isAlive = true;
     private Rigidbody2D _rigidbody;
+    private Transform _spriteTransform;
+    private float _moveDirectionRight = 1;
+    private float _moveDirectionLeft = -1;
 
     public void Die()
     {
@@ -37,7 +41,7 @@ public class PlayerControls : MonoBehaviour
             return;
         
         _animator.SetTrigger(AnimationDeath);
-        StartCoroutine(Death());
+        StartCoroutine(DeathSequence());
         enabled = false;
         _isAlive = false;
     }
@@ -45,24 +49,26 @@ public class PlayerControls : MonoBehaviour
     private void Start()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
-        _animator = GetComponent<Animator>();
     }
 
     private void Update()
     {
         if (Input.GetKeyDown(_jump))
             Jump();
+    }
 
+    private void FixedUpdate()
+    {
         if (Input.GetKey(_moveLeft))
-            MoveLeft();
+            Move(_moveDirectionLeft);
         
         if (Input.GetKey(_moveRight))
-            MoveRight();
-        
-        if (Input.GetKey(_dive))
-            Dive();
+            Move(_moveDirectionRight);
 
-        if (Input.GetKey(_moveRight) == false && Input.GetKey(_moveLeft) == false && Input.GetKey(_dive) == false && _rigidbody.velocity.x != 0f)
+        if (Input.GetKey(_moveRight) == false && Input.GetKey(_moveLeft) == false && _rigidbody.velocity.x != 0f)
+            SlowDown();
+        
+        if (Input.GetKey(_moveRight) && Input.GetKey(_moveLeft))
             SlowDown();
 
         if (_rigidbody.velocity.x != 0)
@@ -82,34 +88,19 @@ public class PlayerControls : MonoBehaviour
         _rigidbody.velocity = velocity;
     }
 
-    private void MoveLeft()
+    private void Move(float moveDirection)
     {
-        if (_rigidbody.velocity.x >= -_maxVelocity)
-            _rigidbody.velocity += Vector2.left * _movePower * Time.deltaTime;
+        if (Mathf.Abs(_rigidbody.velocity.x) <= _maxVelocity)
+            _rigidbody.AddForce(Vector2.right * moveDirection * _movePower, ForceMode2D.Force);
 
         Vector3 scale = transform.localScale;
-        scale.x = -1f;
-        transform.localScale = scale;
-    }
-
-    private void MoveRight()
-    {
-        if (_rigidbody.velocity.x <= _maxVelocity)
-            _rigidbody.velocity += Vector2.right * _movePower * Time.deltaTime;
-
-        Vector3 scale = transform.localScale;
-        scale.x = 1f;
-        transform.localScale = scale;
-    }
-
-    private void Dive()
-    {
-        _rigidbody.velocity += Vector2.down * _movePower * Time.deltaTime;
+        scale.x = moveDirection;
+        _animator.transform.localScale = scale;
     }
 
     private bool IsGrounded()
     {
-        int contactCount = _rigidbody.Cast(Vector2.down, _jumpableSurface, _raycastHits, _distanceToJump);
+        int contactCount = _rigidbody.Cast(Vector2.down, _jumpableSurface, _raycastHits, _groundGapToJump);
         return (contactCount > 0);
     }
 
@@ -117,21 +108,21 @@ public class PlayerControls : MonoBehaviour
     {
         if (IsGrounded())
         {
-            _rigidbody.velocity = new Vector2(_rigidbody.velocity.x, _jumpPower);
+            _rigidbody.AddForce(Vector2.up * _jumpPower, ForceMode2D.Impulse);
             _animator.SetTrigger(AnimationJump);
         }
     }
 
-    private IEnumerator Death()
+    private IEnumerator DeathSequence()
     {
         while (_rigidbody.velocity.x != 0)
         {
             if (IsGrounded())
             {
-                Vector2 velocity =
-                    Vector2.MoveTowards(_rigidbody.velocity, new Vector2(0, _rigidbody.velocity.y), _drag);
+                Vector2 velocity = Vector2.MoveTowards(_rigidbody.velocity, new Vector2(0, _rigidbody.velocity.y), _drag);
                 _rigidbody.velocity = velocity;
             }
+            
             yield return null;
         }
     }

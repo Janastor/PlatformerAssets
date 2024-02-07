@@ -4,9 +4,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+[RequireComponent(typeof(PlayerMover))]
+
 public class Player : MonoBehaviour
 {
     [SerializeField] private CoinCounter _coinCounter;
+
+    private bool _isAlive;
     
     private void OnTriggerEnter2D(Collider2D collision)
     {
