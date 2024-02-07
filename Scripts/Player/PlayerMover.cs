@@ -30,9 +30,11 @@ public class PlayerMover : MonoBehaviour
     private float _moveDirectionRight = 1;
     private float _moveDirectionLeft = -1;
     private bool _wasGrounded;
-    private bool _isGrounded;
+    
     private bool _wasRunning;
-    private bool _isRunning;
+    
+    private float _previousDirection;
+    private float _currentDirection;
     
     public event UnityAction StartedRunning;
     public event UnityAction StoppedRunning;
@@ -80,29 +82,24 @@ public class PlayerMover : MonoBehaviour
 
     private void LandedEventCheck()
     {
-        _isGrounded = IsGrounded();
-        
-        if (_isGrounded && _wasGrounded == false)
+        if (IsGrounded() && _wasGrounded == false)
             Landed?.Invoke();
         
-        if (_isGrounded == false && _wasGrounded)
+        if (IsGrounded() == false && _wasGrounded)
             Ungrounded?.Invoke();
         
-        _wasGrounded = _isGrounded;
+        _wasGrounded = IsGrounded();
     }
 
     private void RunningEventCheck()
     {
-        _isRunning = _rigidbody.velocity.x != 0;
-        
-        if (_isRunning && _wasRunning == false)
+        if (_rigidbody.velocity.x != 0 && _wasRunning == false)
             StartedRunning?.Invoke();
         
-        
-        if (_isRunning == false && _wasRunning == true)
+        if (_rigidbody.velocity.x == 0 && _wasRunning == true)
             StoppedRunning?.Invoke();
         
-        _wasRunning = _isRunning;
+        _wasRunning = _rigidbody.velocity.x != 0;
     }
 
     private void SlowDown()
@@ -111,12 +108,16 @@ public class PlayerMover : MonoBehaviour
         _rigidbody.velocity = velocity;
     }
 
-    private void Move(float moveDirection)
+    private void Move(float horizontalMoveDirection)
     {
-        if (Mathf.Abs(_rigidbody.velocity.x) <= _maxVelocity)
-            _rigidbody.AddForce(Vector2.right * moveDirection * _movePower, ForceMode2D.Force);
-
-        ChangedDirection?.Invoke(moveDirection);
+        if (MathF.Abs(_rigidbody.velocity.x) <= _maxVelocity || (_rigidbody.velocity.x > 0 && horizontalMoveDirection < 0) || (_rigidbody.velocity.x < 0 && horizontalMoveDirection > 0))
+            _rigidbody.AddForce(Vector2.right * horizontalMoveDirection * _movePower, ForceMode2D.Force);
+        
+        if (horizontalMoveDirection != _currentDirection)
+            ChangedDirection?.Invoke(horizontalMoveDirection);
+        
+        _currentDirection = _previousDirection;
+        
     }
 
     private bool IsGrounded()
@@ -130,7 +131,7 @@ public class PlayerMover : MonoBehaviour
     {
         if (IsGrounded())
         {
-            _rigidbody.velocity += Vector2.up * _jumpPower;
+            _rigidbody.velocity = new Vector2(_rigidbody.velocity.x, _jumpPower);
             Jumped?.Invoke();
         }
     }
