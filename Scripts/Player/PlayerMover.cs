@@ -30,11 +30,8 @@ public class PlayerMover : MonoBehaviour
     private float _moveDirectionRight = 1;
     private float _moveDirectionLeft = -1;
     private bool _wasGrounded;
-    
     private bool _wasRunning;
-    
     private float _previousDirection;
-    private float _currentDirection;
     
     public event UnityAction StartedRunning;
     public event UnityAction StoppedRunning;
@@ -102,6 +99,14 @@ public class PlayerMover : MonoBehaviour
         _wasRunning = _rigidbody.velocity.x != 0;
     }
 
+    private void ChangedDirectionEventCheck(float horizontalMoveDirection)
+    {
+        if (horizontalMoveDirection != _previousDirection)
+            ChangedDirection?.Invoke(horizontalMoveDirection);
+        
+        _previousDirection = horizontalMoveDirection;
+    }
+
     private void SlowDown()
     {
         Vector2 velocity = Vector2.MoveTowards(_rigidbody.velocity, new Vector2(0, _rigidbody.velocity.y), _dragAmount);
@@ -112,12 +117,9 @@ public class PlayerMover : MonoBehaviour
     {
         if (MathF.Abs(_rigidbody.velocity.x) <= _maxVelocity || (_rigidbody.velocity.x > 0 && horizontalMoveDirection < 0) || (_rigidbody.velocity.x < 0 && horizontalMoveDirection > 0))
             _rigidbody.AddForce(Vector2.right * horizontalMoveDirection * _movePower, ForceMode2D.Force);
-        
-        if (horizontalMoveDirection != _currentDirection)
-            ChangedDirection?.Invoke(horizontalMoveDirection);
-        
-        _currentDirection = _previousDirection;
-        
+
+        ChangedDirectionEventCheck(horizontalMoveDirection);
+
     }
 
     private bool IsGrounded()
