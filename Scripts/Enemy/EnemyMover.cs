@@ -5,18 +5,22 @@ using UnityEngine;
 
 public class EnemyMover : MonoBehaviour
 {
-    [SerializeField] private Transform _firstPoint;
-    [SerializeField] private Transform _secondPoint;
     [SerializeField] private float _speed;
-
-    private Vector3 _initialPosition;
-    private Vector3 _targetPosition;
-
+    [SerializeField] private Transform _pointsContainer;
+    
+    private Transform[] _points;
+    private int _targetPointIndex = 0;
+    
+    private Vector3 _targetPosition => _points[_targetPointIndex].position;
+    
     private void Start()
     {
-        _initialPosition = _firstPoint.position;
-        _targetPosition = _secondPoint.position;
-        transform.position = _initialPosition;
+        _points = new Transform[_pointsContainer.childCount];
+        
+        for (int i = 0; i < _points.Length; i++)
+            _points[i] = _pointsContainer.GetChild(i);
+
+        transform.position = _points[0].position;
     }
     
     private void Update()
@@ -24,6 +28,9 @@ public class EnemyMover : MonoBehaviour
         transform.position = Vector3.MoveTowards(transform.position, _targetPosition, _speed * Time.deltaTime);
 
         if (transform.position == _targetPosition)
-            (_initialPosition, _targetPosition) = (_targetPosition, _initialPosition);
+        {
+            _targetPointIndex++;
+            _targetPointIndex %= _points.Length;
+        }
     }
 }

@@ -14,7 +14,6 @@ public class CoinSpawner : MonoBehaviour
     private int _minRandom = 0;
     private int _maxRandom;
     private bool _isWorking = true;
-    private Coroutine _spawnCoinLoopCoroutine;
 
     private void Start()
     {
@@ -25,7 +24,7 @@ public class CoinSpawner : MonoBehaviour
             spawnpoint.Init(_coinPrefab);
         }
 
-        _spawnCoinLoopCoroutine = StartCoroutine(SpawningLoop());
+        StartCoroutine(SpawningLoop());
     }
 
     private void TrySpawnInRandomSpawner()

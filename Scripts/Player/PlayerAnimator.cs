@@ -32,6 +32,17 @@ public class PlayerAnimator : MonoBehaviour
         _player.Died += PlayDeathAnimation;
     }
 
+    private void OnDestroy()
+    {
+        _playerMover.StartedRunning -= PlayRunAnimation;
+        _playerMover.StoppedRunning -= StopRunAnimation;
+        _playerMover.ChangedDirection -= ChangeDirection;
+        _playerMover.Jumped -= PlayJumpAnimation;
+        _playerMover.Landed -= StopAirborneAnimation;
+        _playerMover.Ungrounded -= PlayAirborneAnimation;
+        _player.Died -= PlayDeathAnimation;
+    }
+
     private void ChangeDirection(float direction)
     {
         Vector3 scale = transform.localScale;

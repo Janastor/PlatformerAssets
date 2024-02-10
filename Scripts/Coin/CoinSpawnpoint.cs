@@ -1,14 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 public class CoinSpawnpoint : MonoBehaviour
 {
-    private bool _isCoinSpawned = false;
     private Coin _coinPrefab;
+    public bool IsCoinSpawned { get; private set; }
     
-    public bool IsCoinSpawned => _isCoinSpawned;
-
     public void Init(Coin coinPrefab)
     {
         _coinPrefab = coinPrefab;
@@ -17,13 +14,17 @@ public class CoinSpawnpoint : MonoBehaviour
     public void SpawnCoin()
     {
         Coin coin = Instantiate(_coinPrefab, transform.position, Quaternion.identity, transform);
-        coin.Init(this);
         coin.PickedUp += OnCoinPickedUp;
-        _isCoinSpawned = true;
+        IsCoinSpawned = true;
+    }
+
+    private void OnDestroy()
+    {
+        _coinPrefab.PickedUp -= OnCoinPickedUp;
     }
 
     private void OnCoinPickedUp()
     {
-        _isCoinSpawned = false;
+        IsCoinSpawned = false;
     }
 }

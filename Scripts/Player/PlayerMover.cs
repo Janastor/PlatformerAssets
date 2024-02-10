@@ -40,12 +40,6 @@ public class PlayerMover : MonoBehaviour
     public event UnityAction Landed;
     public event UnityAction Ungrounded;
 
-    private void Die()
-    {
-        StartCoroutine(DeathSequence());
-        enabled = false;
-    }
-    
     private void Start()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
@@ -75,6 +69,17 @@ public class PlayerMover : MonoBehaviour
 
         LandedEventCheck();
         RunningEventCheck();
+    }
+
+    private void OnDestroy()
+    {
+        _player.Died -= Die;
+    }
+
+    private void Die()
+    {
+        StartCoroutine(DeathSequence());
+        enabled = false;
     }
 
     private void LandedEventCheck()
@@ -147,9 +152,9 @@ public class PlayerMover : MonoBehaviour
                 SlowDown();
             }
 
-            _rigidbody.drag = _rbDragAfterDeath;
-            
             yield return null;
         }
+        
+        _rigidbody.drag = _rbDragAfterDeath;
     }
 }

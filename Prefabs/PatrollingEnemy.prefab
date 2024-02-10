@@ -98,9 +98,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e48827ab123443045a62fc1c4e8e07bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _firstPoint: {fileID: 6375834875891635704}
-  _secondPoint: {fileID: 6375834874383999699}
   _speed: 0
+  _pointsContainer: {fileID: 7957796268375178209}
 --- !u!61 &68010089009023395
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -176,8 +175,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6375834874014860863}
-  - {fileID: 6375834875891635704}
-  - {fileID: 6375834874383999699}
+  - {fileID: 7957796268375178209}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6375834874383999696
@@ -205,11 +203,11 @@ Transform:
   m_GameObject: {fileID: 6375834874383999696}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -3.36, y: 0, z: 0}
+  m_LocalPosition: {x: -3.3599997, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 6375834874080754862}
+  m_Father: {fileID: 7957796268375178209}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6375834875891635705
 GameObject:
@@ -240,5 +238,38 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
+  m_Father: {fileID: 7957796268375178209}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &8669968956948703777
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7957796268375178209}
+  m_Layer: 0
+  m_Name: PatrolPoints
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7957796268375178209
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8669968956948703777}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 6375834875891635704}
+  - {fileID: 6375834874383999699}
   m_Father: {fileID: 6375834874080754862}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
