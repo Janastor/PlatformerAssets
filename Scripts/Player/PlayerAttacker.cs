@@ -5,33 +5,45 @@ using UnityEngine;
 using UnityEngine.Events;
 
 [RequireComponent(typeof(Player))]
+[RequireComponent(typeof(PlayerMover))]
 
 public class PlayerAttacker : MonoBehaviour
 {
     [SerializeField] private Collider2D _hurtBox;
+    [SerializeField] private float _attackDistance;
     [SerializeField] private float _damage;
     [SerializeField] private float _attackCooldown = 0.8f;
     [SerializeField] private KeyCode _attackKey;
-
-    private Player _player;
+    
+    private PlayerMover _playerMover;
+    private Collider2D _collider;
     private bool _canAttack = true;
     private WaitForSeconds _attackCooldownWait;
-    private List<Collider2D> _contacts = new List<Collider2D>();
+    private List<RaycastHit2D> _hits = new List<RaycastHit2D>();
     private ContactFilter2D _contactFilter = new ContactFilter2D();
+    private Vector2 _attackDirection;
+    
+    private Vector2 _finalRay;
     
     public event UnityAction Attacked;
     
     private void Start()
     {
-        _player = GetComponent<Player>();
+        _playerMover = GetComponent<PlayerMover>();
+        _collider = GetComponent<Collider2D>();
         _attackCooldownWait = new WaitForSeconds(_attackCooldown);
         _contactFilter.useTriggers = true;
+        _attackDirection = new Vector2(1, 0);
+        _playerMover.ChangedDirection += ChangeAttackDirection;
     }
 
     private void Update()
     {
         if (Input.GetKeyDown(_attackKey))
             TryAttack();
+        
+        _finalRay = new (transform.position.x + (_attackDirection.x * _attackDistance), transform.position.y);
+        Debug.DrawLine(transform.position, _finalRay, Color.red, _attackDistance);
     }
 
     private void TryAttack()
@@ -44,25 +56,27 @@ public class PlayerAttacker : MonoBehaviour
 
     private void Attack()
     {
-        Attacked?.Invoke();
+        _collider.Cast(_attackDirection, _contactFilter, _hits, _attackDistance);
         
-        _hurtBox.OverlapCollider(_contactFilter, _contacts);
-        print(_contacts.Count);
-
-        foreach (Collider2D collision in _contacts)
+        foreach (RaycastHit2D hit in _hits)
         {
-            if (collision.TryGetComponent(out Enemy enemy))
+            if (hit.collider.TryGetComponent(out Enemy enemy))
                 enemy.TakeDamage(_damage);
         }
         
+        Attacked?.Invoke();
         ActivateAttackCooldown();
+    }
+
+    private void ChangeAttackDirection(float direction)
+    {
+        _attackDirection.x = direction;
     }
 
     private void ActivateAttackCooldown()
     {
         _canAttack = false;
         StartCoroutine(CooldownCoroutine());
-        print("OnCooldown");
     }
 
     private IEnumerator CooldownCoroutine()

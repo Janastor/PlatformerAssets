@@ -14,11 +14,18 @@ public class Player : MonoBehaviour
 
     private bool _isAlive = true;
     private bool _canTakeDamage = true;
+    private BoxCollider2D _playerHitbox;
 
     public event UnityAction Died;
     public event UnityAction TookDamage;
     
     public float _currentHealth { get; private set; }
+    
+    private void Start()
+    {
+        _currentHealth = _health;
+        _playerHitbox = GetComponent<BoxCollider2D>();
+    }
     
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -32,13 +39,21 @@ public class Player : MonoBehaviour
             Die();
     }
 
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.TryGetComponent(out Enemy enemy))
+            TryTakeDamage(enemy.Damage);
+    }
+
     private void TryTakeDamage(float damage)
     {
         if (_canTakeDamage == false)
             return;
         
         _currentHealth -= damage;
+        ActivateIFrame();
         TookDamage?.Invoke();
+        print("took damage");
 
         if (_health <= 0)
             Die();
