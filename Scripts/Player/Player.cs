@@ -9,10 +9,16 @@ using UnityEngine.Events;
 public class Player : MonoBehaviour
 {
     [SerializeField] private CoinCounter _coinCounter;
+    [SerializeField] private float _health;
+    [SerializeField] private float _iFrameDuration = 1f;
 
     private bool _isAlive = true;
+    private bool _canTakeDamage = true;
 
     public event UnityAction Died;
+    public event UnityAction TookDamage;
+    
+    public float _currentHealth { get; private set; }
     
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -22,7 +28,19 @@ public class Player : MonoBehaviour
             coin.PickUp();
         }
 
-        if (collision.CompareTag("PlayerKiller"))
+        if (collision.TryGetComponent(out PlayerKiller _))
+            Die();
+    }
+
+    private void TryTakeDamage(float damage)
+    {
+        if (_canTakeDamage == false)
+            return;
+        
+        _currentHealth -= damage;
+        TookDamage?.Invoke();
+
+        if (_health <= 0)
             Die();
     }
 
@@ -33,5 +51,18 @@ public class Player : MonoBehaviour
         
         Died?.Invoke();
         _isAlive = false;
+    }
+
+    private void ActivateIFrame()
+    {
+        _canTakeDamage = false;
+        StartCoroutine(IFrameCoroutine());
+    }
+
+    private IEnumerator IFrameCoroutine()
+    {
+        yield return new WaitForSeconds(_iFrameDuration);
+
+        _canTakeDamage = true;
     }
 }

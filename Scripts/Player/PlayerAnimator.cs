@@ -5,6 +5,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(Player))]
 [RequireComponent(typeof(PlayerMover))]
+[RequireComponent(typeof(PlayerAttacker))]
 
 public class PlayerAnimator : MonoBehaviour
 {
@@ -12,16 +13,19 @@ public class PlayerAnimator : MonoBehaviour
     
     private Player _player;
     private PlayerMover _playerMover;
+    private PlayerAttacker _playerAttacker;
 
     private const string AnimationDeath = "death";
     private const string AnimationIsRunning = "isRunning";
     private const string AnimationIsGrounded = "isGrounded";
     private const string AnimationJump = "jump";
+    private const string AnimationAttack = "attack";
 
     private void Start()
     {
         _player = GetComponent<Player>();
         _playerMover = GetComponent<PlayerMover>();
+        _playerAttacker = GetComponent<PlayerAttacker>();
         
         _playerMover.StartedRunning += PlayRunAnimation;
         _playerMover.StoppedRunning += StopRunAnimation;
@@ -30,6 +34,7 @@ public class PlayerAnimator : MonoBehaviour
         _playerMover.Landed += StopAirborneAnimation;
         _playerMover.Ungrounded += PlayAirborneAnimation;
         _player.Died += PlayDeathAnimation;
+        _playerAttacker.Attacked += PlayAttackAnimation;
     }
 
     private void OnDestroy()
@@ -41,6 +46,7 @@ public class PlayerAnimator : MonoBehaviour
         _playerMover.Landed -= StopAirborneAnimation;
         _playerMover.Ungrounded -= PlayAirborneAnimation;
         _player.Died -= PlayDeathAnimation;
+        _playerAttacker.Attacked -= PlayAttackAnimation;
     }
 
     private void ChangeDirection(float direction)
@@ -78,5 +84,10 @@ public class PlayerAnimator : MonoBehaviour
     private void PlayDeathAnimation()
     {
         _animator.SetTrigger(AnimationDeath);
+    }
+
+    private void PlayAttackAnimation()
+    {
+        _animator.SetTrigger(AnimationAttack);
     }
 }
