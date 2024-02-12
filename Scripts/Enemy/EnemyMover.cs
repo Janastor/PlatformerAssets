@@ -7,11 +7,16 @@ public class EnemyMover : MonoBehaviour
 {
     [SerializeField] private float _speed;
     [SerializeField] private Transform _pointsContainer;
+    [SerializeField] private float _chaseRange;
+    [SerializeField] private float _chaseSpeedModifier;
     
     private Transform[] _points;
+    private Transform _playerTransform;
     private int _targetPointIndex = 0;
+    private bool _isChasingPlayer = false;
     
-    private Vector3 _targetPosition => _points[_targetPointIndex].position;
+    private Vector3 _targetPointPosition => _isChasingPlayer ? _playerTransform.position : _points[_targetPointIndex].position;
+    private Vector3 _playerPosition => _playerTransform.position;
     
     private void Start()
     {
@@ -25,12 +30,24 @@ public class EnemyMover : MonoBehaviour
     
     private void Update()
     {
-        transform.position = Vector3.MoveTowards(transform.position, _targetPosition, _speed * Time.deltaTime);
-
-        if (transform.position == _targetPosition)
+        if (ShouldChasePlayer())
         {
-            _targetPointIndex++;
-            _targetPointIndex %= _points.Length;
+            transform.position = Vector3.MoveTowards(transform.position, _playerPosition, _speed * _chaseSpeedModifier * Time.deltaTime);
         }
+        else
+        {
+            transform.position = Vector3.MoveTowards(transform.position, _targetPointPosition, _speed * Time.deltaTime);
+
+            if (transform.position == _targetPointPosition)
+            {
+                _targetPointIndex++;
+                _targetPointIndex %= _points.Length;
+            }
+        }
+    }
+
+    private bool ShouldChasePlayer()
+    {
+        return true;
     }
 }
