@@ -21,6 +21,7 @@ public class PlayerAnimator : MonoBehaviour
     private const string AnimationJump = "jump";
     private const string AnimationAttack = "attack";
     private const string AnimationTookDamage = "tookDamage";
+    private const string AnimationHealed = "healed";
 
     private void Start()
     {
@@ -36,6 +37,7 @@ public class PlayerAnimator : MonoBehaviour
         _playerMover.Ungrounded += PlayAirborneAnimation;
         _player.Died += PlayDeathAnimation;
         _player.TookDamage += PlayDamageAnimation;
+        _player.Healed += PlayHealAnimation;
         _playerAttacker.Attacked += PlayAttackAnimation;
     }
 
@@ -49,6 +51,7 @@ public class PlayerAnimator : MonoBehaviour
         _playerMover.Ungrounded -= PlayAirborneAnimation;
         _player.Died -= PlayDeathAnimation;
         _player.TookDamage -= PlayDamageAnimation;
+        _player.Healed -= PlayHealAnimation;
         _playerAttacker.Attacked -= PlayAttackAnimation;
     }
 
@@ -57,6 +60,11 @@ public class PlayerAnimator : MonoBehaviour
         Vector3 scale = transform.localScale;
         scale.x = direction;
         transform.localScale = scale;
+    }
+
+    private void PlayHealAnimation()
+    {
+        _animator.SetTrigger(AnimationHealed);
     }
 
     private void PlayDamageAnimation()

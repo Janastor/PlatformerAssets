@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
 
-[RequireComponent(typeof(TextMeshProUGUI))]
+[RequireComponent(typeof(TMP_Text))]
 
 public class CoinCounter : MonoBehaviour
 {

@@ -17,12 +17,13 @@ public class Player : MonoBehaviour
 
     public event UnityAction Died;
     public event UnityAction TookDamage;
+    public event UnityAction Healed;
     
-    public float _currentHealth { get; private set; }
+    public float CurrentHealth { get; private set; }
     
-    private void Start()
+    private void Awake()
     {
-        _currentHealth = _health;
+        CurrentHealth = _health;
     }
     
     private void OnTriggerEnter2D(Collider2D collision)
@@ -31,6 +32,13 @@ public class Player : MonoBehaviour
         {
             _coinCounter.AddCoin();
             coin.PickUp();
+        }
+        
+        if (collision.TryGetComponent(out HealthKit healthKit))
+        {
+            CurrentHealth += healthKit.HealingAmount;
+            Healed?.Invoke();
+            healthKit.PickUp();
         }
 
         if (collision.TryGetComponent(out PlayerKiller _))
@@ -48,11 +56,11 @@ public class Player : MonoBehaviour
         if (_canTakeDamage == false || _isAlive == false)
             return;
         
-        _currentHealth -= damage;
+        CurrentHealth -= damage;
         ActivateIFrame();
         TookDamage?.Invoke();
 
-        if (_currentHealth <= 0)
+        if (CurrentHealth <= 0)
             Die();
     }
 
