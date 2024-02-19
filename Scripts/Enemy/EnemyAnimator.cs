@@ -14,7 +14,7 @@ public class EnemyAnimator : MonoBehaviour
     private const string AnimationTookDamage = "tookDamage";
     private const string AnimationDeath = "death";
     
-    void Start()
+    private void Start()
     {
         _enemy = GetComponent<Enemy>();
         _animator = GetComponent<Animator>();
