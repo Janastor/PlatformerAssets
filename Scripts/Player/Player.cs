@@ -14,7 +14,6 @@ public class Player : MonoBehaviour
 
     private bool _isAlive = true;
     private bool _canTakeDamage = true;
-    private BoxCollider2D _playerHitbox;
 
     public event UnityAction Died;
     public event UnityAction TookDamage;
@@ -24,7 +23,6 @@ public class Player : MonoBehaviour
     private void Start()
     {
         _currentHealth = _health;
-        _playerHitbox = GetComponent<BoxCollider2D>();
     }
     
     private void OnTriggerEnter2D(Collider2D collision)
@@ -41,21 +39,20 @@ public class Player : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.TryGetComponent(out Enemy enemy))
+        if (collision.TryGetComponent(out Enemy enemy) && enemy.IsAlive)
             TryTakeDamage(enemy.Damage);
     }
 
     private void TryTakeDamage(float damage)
     {
-        if (_canTakeDamage == false)
+        if (_canTakeDamage == false || _isAlive == false)
             return;
         
         _currentHealth -= damage;
         ActivateIFrame();
         TookDamage?.Invoke();
-        print("took damage");
 
-        if (_health <= 0)
+        if (_currentHealth <= 0)
             Die();
     }
 
@@ -66,6 +63,7 @@ public class Player : MonoBehaviour
         
         Died?.Invoke();
         _isAlive = false;
+        StopCoroutine(IFrameCoroutine());
     }
 
     private void ActivateIFrame()

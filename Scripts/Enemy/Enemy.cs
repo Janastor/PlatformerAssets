@@ -2,31 +2,49 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Enemy : MonoBehaviour
 {
     [SerializeField] private float _health;
     [SerializeField] private float _damage;
+
+    private float _deathDuration = 1f;
     
-    public float _currentHealth { get; private set; }
+    public event UnityAction TookDamage;
+    public event UnityAction Died;
+    
+    public float CurrentHealth { get; private set; }
+    public bool IsAlive { get; private set; }
     
     public float Damage => _damage;
 
     private void Start()
     {
-        _currentHealth = _health;
+        CurrentHealth = _health;
+        IsAlive = true;
     }
 
     public void TakeDamage(float damage)
     {
-        _currentHealth -= damage;
+        CurrentHealth -= damage;
+        TookDamage?.Invoke();
 
-        if (_currentHealth <= 0)
+        if (CurrentHealth <= 0)
             Die();
     }
 
     private void Die()
     {
+        Died?.Invoke();
+        IsAlive = false;
+        StartCoroutine(DeathSequence());
+    }
+
+    private IEnumerator DeathSequence()
+    {
+        yield return new WaitForSeconds(_deathDuration);
+        
         Destroy(gameObject);
     }
 }

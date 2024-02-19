@@ -43,7 +43,6 @@ public class PlayerAttacker : MonoBehaviour
             TryAttack();
         
         _finalRay = new (transform.position.x + (_attackDirection.x * _attackDistance), transform.position.y);
-        Debug.DrawLine(transform.position, _finalRay, Color.red, _attackDistance);
     }
 
     private void TryAttack()
