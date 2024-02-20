@@ -4,7 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class PlayerHealth : MonoBehaviour
+public class EntityHealth : MonoBehaviour
 {
     public event UnityAction OutOfHealth;
     public event UnityAction HealthChanged;

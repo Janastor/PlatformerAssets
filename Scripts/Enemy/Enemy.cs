@@ -5,32 +5,32 @@ using UnityEngine;
 using UnityEngine.Events;
 
 [RequireComponent(typeof(EnemyAttacker))]
+[RequireComponent(typeof(EntityHealth))]
 
 public class Enemy : MonoBehaviour
 {
     [SerializeField] private float _health;
 
     private float _deathDuration = 1f;
+    private EntityHealth _enemyHealth; 
     
     public event UnityAction TookDamage;
     public event UnityAction Died;
     
-    public float CurrentHealth { get; private set; }
     public bool IsAlive { get; private set; }
 
     private void Start()
     {
-        CurrentHealth = _health;
+        _enemyHealth = GetComponent<EntityHealth>();
+        _enemyHealth.SetHealth(_health);
+        _enemyHealth.OutOfHealth += Die;
         IsAlive = true;
     }
 
     public void TakeDamage(float damage)
     {
-        CurrentHealth -= damage;
+        _enemyHealth.DecreaseHealth(damage);
         TookDamage?.Invoke();
-
-        if (CurrentHealth <= 0)
-            Die();
     }
 
     private void Die()

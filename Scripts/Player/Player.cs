@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.Events;
 
 [RequireComponent(typeof(PlayerMover))]
-[RequireComponent(typeof(PlayerHealth))]
+[RequireComponent(typeof(EntityHealth))]
 
 public class Player : MonoBehaviour
 {
@@ -16,7 +16,7 @@ public class Player : MonoBehaviour
 
     private bool _isAlive = true;
     private bool _canTakeDamage = true;
-    private PlayerHealth _playerHealth;
+    private EntityHealth _playerHealth;
 
     public event UnityAction Died;
     public event UnityAction TookDamage;
@@ -24,7 +24,7 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
-        _playerHealth = GetComponent<PlayerHealth>();
+        _playerHealth = GetComponent<EntityHealth>();
         _playerHealth.SetHealth(_health);
         _playerHealth.OutOfHealth += Die;
     }
@@ -54,7 +54,6 @@ public class Player : MonoBehaviour
             return;
         
         _playerHealth.DecreaseHealth(damage);
-        //ActivateIFrame();
         TookDamage?.Invoke();
     }
 
@@ -65,19 +64,10 @@ public class Player : MonoBehaviour
         
         Died?.Invoke();
         _isAlive = false;
-        //StopCoroutine(DamageImmunityCoroutine());
     }
 
     private void ActivateIFrame()
     {
         _canTakeDamage = false;
-        //StartCoroutine(DamageImmunityCoroutine());
     }
-
-    // private IEnumerator DamageImmunityCoroutine()
-    // {
-    //     yield return new WaitForSeconds(_damageImmunityDuration);
-    //
-    //     _canTakeDamage = true;
-    // }
 }
