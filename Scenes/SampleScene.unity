@@ -4248,7 +4248,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60d0795336072144bb9e72cb29b1f24d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _player: {fileID: 2070813794}
+  _playerHealth: {fileID: 2070813800}
 --- !u!4 &1162748890 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7833733529072538857, guid: 5fd6c749eab132e4f96a346d469a7e0a, type: 3}
@@ -5500,15 +5500,15 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8678440815769564125, guid: 99a50bc06557a3644a490bb4550122ed, type: 3}
   m_PrefabInstance: {fileID: 8678440816225866721}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &2070813794 stripped
+--- !u!114 &2070813800 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8678440815769564065, guid: 99a50bc06557a3644a490bb4550122ed, type: 3}
+  m_CorrespondingSourceObject: {fileID: 1834052262754560335, guid: 99a50bc06557a3644a490bb4550122ed, type: 3}
   m_PrefabInstance: {fileID: 8678440816225866721}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d673ec8779437c74d956ffe9ddee96c7, type: 3}
+  m_Script: {fileID: 11500000, guid: cfdee1e4eb6231541991ce385533c74b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!4 &2072697224 stripped
@@ -7043,6 +7043,10 @@ PrefabInstance:
     - target: {fileID: 6741654353685737807, guid: 99a50bc06557a3644a490bb4550122ed, type: 3}
       propertyPath: m_UsedByComposite
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8628789228164600360, guid: 99a50bc06557a3644a490bb4550122ed, type: 3}
+      propertyPath: _hurtBox
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 8628789228164600360, guid: 99a50bc06557a3644a490bb4550122ed, type: 3}
       propertyPath: _attackDistance

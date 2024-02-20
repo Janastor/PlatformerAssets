@@ -22,9 +22,7 @@ public class PlayerAttacker : MonoBehaviour
     private List<RaycastHit2D> _hits = new List<RaycastHit2D>();
     private ContactFilter2D _contactFilter = new ContactFilter2D();
     private Vector2 _attackDirection;
-    
-    private Vector2 _finalRay;
-    
+
     public event UnityAction Attacked;
     
     private void Start()
@@ -41,8 +39,6 @@ public class PlayerAttacker : MonoBehaviour
     {
         if (Input.GetKeyDown(_attackKey))
             TryAttack();
-        
-        _finalRay = new (transform.position.x + (_attackDirection.x * _attackDistance), transform.position.y);
     }
 
     private void TryAttack()

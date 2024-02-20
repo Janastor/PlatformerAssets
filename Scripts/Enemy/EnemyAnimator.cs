@@ -8,12 +8,12 @@ using UnityEngine;
 
 public class EnemyAnimator : MonoBehaviour
 {
-    private Enemy _enemy;
-    private Animator _animator;
-    
     private const string AnimationTookDamage = "tookDamage";
     private const string AnimationDeath = "death";
     
+    private Enemy _enemy;
+    private Animator _animator;
+
     private void Start()
     {
         _enemy = GetComponent<Enemy>();

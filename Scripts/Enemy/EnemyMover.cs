@@ -27,7 +27,7 @@ public class EnemyMover : MonoBehaviour
     {
         _points = new Transform[_pointsContainer.childCount];
         _enemy = GetComponent<Enemy>();
-        _enemy.Died += DeathSequence;
+        _enemy.Died += OnDeath;
         
         for (int i = 0; i < _points.Length; i++)
             _points[i] = _pointsContainer.GetChild(i);
@@ -43,7 +43,7 @@ public class EnemyMover : MonoBehaviour
 
     private void OnDestroy()
     {
-        _enemy.Died -= DeathSequence;
+        _enemy.Died -= OnDeath;
     }
 
     private void Move()
@@ -78,7 +78,7 @@ public class EnemyMover : MonoBehaviour
             _isChasingPlayer = false;
     }
 
-    private void DeathSequence()
+    private void OnDeath()
     {
         enabled = false;
     }

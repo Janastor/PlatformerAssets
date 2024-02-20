@@ -11,10 +11,6 @@ public class PlayerAnimator : MonoBehaviour
 {
     [SerializeField] private Animator _animator;
     
-    private Player _player;
-    private PlayerMover _playerMover;
-    private PlayerAttacker _playerAttacker;
-
     private const string AnimationDeath = "death";
     private const string AnimationIsRunning = "isRunning";
     private const string AnimationIsGrounded = "isGrounded";
@@ -22,7 +18,11 @@ public class PlayerAnimator : MonoBehaviour
     private const string AnimationAttack = "attack";
     private const string AnimationTookDamage = "tookDamage";
     private const string AnimationHealed = "healed";
-
+    
+    private Player _player;
+    private PlayerMover _playerMover;
+    private PlayerAttacker _playerAttacker;
+    
     private void Start()
     {
         _player = GetComponent<Player>();

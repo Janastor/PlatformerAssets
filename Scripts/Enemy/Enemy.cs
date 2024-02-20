@@ -25,6 +25,12 @@ public class Enemy : MonoBehaviour
         IsAlive = true;
     }
 
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.TryGetComponent(out Player player) && IsAlive)
+            player.TryTakeDamage(_damage);
+    }
+
     public void TakeDamage(float damage)
     {
         CurrentHealth -= damage;
@@ -38,10 +44,10 @@ public class Enemy : MonoBehaviour
     {
         Died?.Invoke();
         IsAlive = false;
-        StartCoroutine(DeathSequence());
+        StartCoroutine(DestroyAfterDelay());
     }
 
-    private IEnumerator DeathSequence()
+    private IEnumerator DestroyAfterDelay()
     {
         yield return new WaitForSeconds(_deathDuration);
         

@@ -7,7 +7,7 @@ using UnityEngine;
 
 public class TemporaryHealthDisplay : MonoBehaviour
 {
-    [SerializeField] private Player _player;
+    [SerializeField] private PlayerHealth _playerHealth;
 
     private TMP_Text _text;
     private string _displayText = "Health: ";
@@ -15,19 +15,17 @@ public class TemporaryHealthDisplay : MonoBehaviour
     private void Start()
     {
         _text = GetComponent<TMP_Text>();
-        _player.TookDamage += SetDisplay;
-        _player.Healed += SetDisplay;
+        _playerHealth.HealthChanged += SetDisplay;
         SetDisplay();
     }
     
     private void OnDestroy()
     {
-        _player.TookDamage -= SetDisplay;
-        _player.Healed -= SetDisplay;
+        _playerHealth.HealthChanged -= SetDisplay;
     }
 
     private void SetDisplay()
     {
-        _text.text = _displayText + _player.CurrentHealth;
+        _text.text = _displayText + _playerHealth.Health;
     }
 }
