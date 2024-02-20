@@ -4,10 +4,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+[RequireComponent(typeof(EnemyAttacker))]
+
 public class Enemy : MonoBehaviour
 {
     [SerializeField] private float _health;
-    [SerializeField] private float _damage;
 
     private float _deathDuration = 1f;
     
@@ -16,19 +17,11 @@ public class Enemy : MonoBehaviour
     
     public float CurrentHealth { get; private set; }
     public bool IsAlive { get; private set; }
-    
-    public float Damage => _damage;
 
     private void Start()
     {
         CurrentHealth = _health;
         IsAlive = true;
-    }
-
-    private void OnTriggerStay2D(Collider2D collision)
-    {
-        if (collision.TryGetComponent(out Player player) && IsAlive)
-            player.TryTakeDamage(_damage);
     }
 
     public void TakeDamage(float damage)

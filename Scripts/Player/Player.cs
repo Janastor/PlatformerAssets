@@ -12,7 +12,7 @@ public class Player : MonoBehaviour
 {
     [SerializeField] private CoinCounter _coinCounter;
     [SerializeField] private float _health;
-    [SerializeField] private float _damageImmunityDuration = 1f;
+    //[SerializeField] private float _damageImmunityDuration = 1f;
 
     private bool _isAlive = true;
     private bool _canTakeDamage = true;
@@ -54,7 +54,7 @@ public class Player : MonoBehaviour
             return;
         
         _playerHealth.DecreaseHealth(damage);
-        ActivateIFrame();
+        //ActivateIFrame();
         TookDamage?.Invoke();
     }
 
@@ -65,19 +65,19 @@ public class Player : MonoBehaviour
         
         Died?.Invoke();
         _isAlive = false;
-        StopCoroutine(DamageImmunityCoroutine());
+        //StopCoroutine(DamageImmunityCoroutine());
     }
 
     private void ActivateIFrame()
     {
         _canTakeDamage = false;
-        StartCoroutine(DamageImmunityCoroutine());
+        //StartCoroutine(DamageImmunityCoroutine());
     }
 
-    private IEnumerator DamageImmunityCoroutine()
-    {
-        yield return new WaitForSeconds(_damageImmunityDuration);
-
-        _canTakeDamage = true;
-    }
+    // private IEnumerator DamageImmunityCoroutine()
+    // {
+    //     yield return new WaitForSeconds(_damageImmunityDuration);
+    //
+    //     _canTakeDamage = true;
+    // }
 }
