@@ -34,6 +34,10 @@ public class EntityHealth : MonoBehaviour
     public void AddHealth(float amount)
     {
         Health += amount;
+        
+        if (Health > MaxHealth)
+            Health = MaxHealth;
+        
         HealthChanged?.Invoke();
     }
 }
