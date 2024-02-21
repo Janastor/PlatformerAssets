@@ -7,17 +7,17 @@ public class CanvasFollower : MonoBehaviour
     [SerializeField] private EntityHealth _entity;
     [SerializeField] private Vector3 _offset;
     
-    private Transform target;
+    private Transform _target;
     
     private void Start()
     {
-        target = _entity.transform;
+        _target = _entity.transform;
         _entity.OutOfHealth += OnEntityDied;
     } 
     
     private void Update()
     {
-        transform.position = target.position + _offset;
+        transform.position = _target.position + _offset;
     }
     
     private void OnDestroy()
