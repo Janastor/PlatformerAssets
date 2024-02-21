@@ -49,7 +49,7 @@ public class Player : MonoBehaviour
     
     public void TakeFullHealthDamage()
     {
-        _playerHealth.DecreaseHealth(_maxHealth);
+        TryTakeDamage(_maxHealth);
         TookDamage?.Invoke();
     }
 
