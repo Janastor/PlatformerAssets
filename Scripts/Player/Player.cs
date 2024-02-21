@@ -12,7 +12,7 @@ public class Player : MonoBehaviour
 {
     [SerializeField] private CoinCounter _coinCounter;
     [SerializeField] private float _health;
-    //[SerializeField] private float _damageImmunityDuration = 1f;
+    [SerializeField] private float _maxHealth;
 
     private bool _isAlive = true;
     private bool _canTakeDamage = true;
@@ -25,7 +25,7 @@ public class Player : MonoBehaviour
     private void Awake()
     {
         _playerHealth = GetComponent<EntityHealth>();
-        _playerHealth.SetHealth(_health);
+        _playerHealth.SetHealth(_maxHealth, _health);
         _playerHealth.OutOfHealth += Die;
     }
     

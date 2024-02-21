@@ -10,10 +10,12 @@ public class EntityHealth : MonoBehaviour
     public event UnityAction HealthChanged;
 
     public float Health { get; private set; }
+    public float MaxHealth { get; private set; }
 
-    public void SetHealth(float health)
+    public void SetHealth(float maxHealth, float health)
     {
         Health = health;
+        MaxHealth = maxHealth;
     }
 
     public void DecreaseHealth(float amount)

@@ -10,6 +10,7 @@ using UnityEngine.Events;
 public class Enemy : MonoBehaviour
 {
     [SerializeField] private float _health;
+    [SerializeField] private float _maxHealth;
 
     private float _deathDuration = 1f;
     private EntityHealth _enemyHealth; 
@@ -19,10 +20,10 @@ public class Enemy : MonoBehaviour
     
     public bool IsAlive { get; private set; }
 
-    private void Start()
+    private void Awake()
     {
         _enemyHealth = GetComponent<EntityHealth>();
-        _enemyHealth.SetHealth(_health);
+        _enemyHealth.SetHealth(_maxHealth, _health);
         _enemyHealth.OutOfHealth += Die;
         IsAlive = true;
     }

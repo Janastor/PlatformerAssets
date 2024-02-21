@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,6 +11,13 @@ public class EnemyAttacker : MonoBehaviour
     [SerializeField] private float _attackCooldown;
     
     private bool _canAttack = true;
+    private Enemy _enemy;
+
+    private void Start()
+    {
+        _enemy = GetComponent<Enemy>();
+        _enemy.Died += OnEnemyDied;
+    }
 
     private void OnTriggerStay2D(Collider2D collision)
     {
@@ -22,6 +30,11 @@ public class EnemyAttacker : MonoBehaviour
         player.TryTakeDamage(_damage);
         _canAttack = false;
         StartCoroutine(AttackCooldownCoroutine());
+    }
+    
+    private void OnEnemyDied()
+    {
+        _canAttack = false;
     }
 
     private IEnumerator AttackCooldownCoroutine()

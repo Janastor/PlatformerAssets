@@ -10,6 +10,7 @@ using UnityEngine;
 public class PlayerAnimator : MonoBehaviour
 {
     [SerializeField] private Animator _animator;
+    [SerializeField] private Transform _playerSprite;
     
     private const string AnimationDeath = "death";
     private const string AnimationIsRunning = "isRunning";
@@ -59,7 +60,7 @@ public class PlayerAnimator : MonoBehaviour
     {
         Vector3 scale = transform.localScale;
         scale.x = direction;
-        transform.localScale = scale;
+        _playerSprite.transform.localScale = scale;
     }
 
     private void PlayHealAnimation()
