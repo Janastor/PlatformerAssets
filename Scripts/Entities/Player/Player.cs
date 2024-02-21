@@ -15,7 +15,6 @@ public class Player : MonoBehaviour
     [SerializeField] private float _maxHealth;
 
     private bool _isAlive = true;
-    private bool _canTakeDamage = true;
     private EntityHealth _playerHealth;
 
     public event UnityAction Died;
@@ -44,13 +43,19 @@ public class Player : MonoBehaviour
             healthKit.PickUp();
         }
 
-        if (collision.TryGetComponent(out PlayerKiller _))
-            Die();
+        //if (collision.TryGetComponent(out PlayerKiller _))
+        //    Die();
+    }
+    
+    public void TakeFullHealthDamage()
+    {
+        _playerHealth.DecreaseHealth(_maxHealth);
+        TookDamage?.Invoke();
     }
 
     public void TryTakeDamage(float damage)
     {
-        if (_canTakeDamage == false || _isAlive == false)
+        if (_isAlive == false)
             return;
         
         _playerHealth.DecreaseHealth(damage);
@@ -64,10 +69,5 @@ public class Player : MonoBehaviour
         
         Died?.Invoke();
         _isAlive = false;
-    }
-
-    private void ActivateIFrame()
-    {
-        _canTakeDamage = false;
     }
 }

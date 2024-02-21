@@ -4,5 +4,14 @@ using UnityEngine;
 
 public class PlayerKiller : MonoBehaviour
 {
-    
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.TryGetComponent(out Player player))
+            KillPlayer(player);
+    }
+
+    private void KillPlayer(Player player)
+    {
+        player.TakeFullHealthDamage();
+    }
 }
