@@ -15,11 +15,12 @@ public class Player : MonoBehaviour
     [SerializeField] private float _maxHealth;
 
     private bool _isAlive = true;
-    private EntityHealth _playerHealth;
 
     public event UnityAction Died;
     public event UnityAction TookDamage;
     public event UnityAction Healed;
+    
+    private EntityHealth _playerHealth;
 
     private void Awake()
     {

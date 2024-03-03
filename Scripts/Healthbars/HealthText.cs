@@ -12,12 +12,16 @@ public class HealthText : HealthDisplay
     private const char Slash = '/';
     private Coroutine _changeHealthBarValueCoroutine;
     
-    private void Start()
+    private void Awake()
     {
         _text = GetComponent<TMP_Text>();
+    }
+
+    protected override void SetValue()
+    {
         _text.text = _currentHealth.ToString(DisplayFormat) + Slash + _maxHealth.ToString(DisplayFormat);
     }
-    
+
     protected override void ChangeValue()
     {
         _text.text = _currentHealth.ToString(DisplayFormat) + Slash + _maxHealth.ToString(DisplayFormat);

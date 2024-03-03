@@ -6,10 +6,15 @@ public abstract class HealthDisplay : MonoBehaviour
     
     protected float _currentHealth => _entityHealth.Health;
     protected float _maxHealth => _entityHealth.MaxHealth;
-    
+
     private void OnEnable()
     {
         _entityHealth.HealthChanged += ChangeValue;
+    }
+
+    private void Start()
+    {
+        SetValue();
     }
 
     private void OnDisable()
@@ -18,4 +23,6 @@ public abstract class HealthDisplay : MonoBehaviour
     }
 
     protected abstract void ChangeValue();
+
+    protected abstract void SetValue();
 }

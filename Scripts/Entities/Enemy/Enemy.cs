@@ -38,13 +38,6 @@ public class Enemy : MonoBehaviour
     {
         Died?.Invoke();
         IsAlive = false;
-        StartCoroutine(DestroyAfterDelay());
-    }
-
-    private IEnumerator DestroyAfterDelay()
-    {
-        yield return new WaitForSeconds(_deathDuration);
-        
-        Destroy(gameObject);
+        Destroy(gameObject, _deathDuration);
     }
 }

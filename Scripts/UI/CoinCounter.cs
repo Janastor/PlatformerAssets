@@ -9,14 +9,14 @@ public class CoinCounter : MonoBehaviour
     private int _coinCount = 0;
     private string _displayText = "Coins: ";
 
+    private void Start()
+    {
+        _text = GetComponent<TextMeshProUGUI>();
+    }
+
     public void AddCoin()
     {
         _coinCount++;
         _text.text = _displayText + _coinCount;
-    }
-
-    private void Start()
-    {
-        _text = GetComponent<TextMeshProUGUI>();
     }
 }

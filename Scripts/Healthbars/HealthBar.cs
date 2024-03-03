@@ -17,11 +17,11 @@ public class HealthBar : HealthDisplay
         _healthbar = GetComponent<Slider>();
     }
     
-    private void Start()
+    protected override void SetValue()
     {
         _healthbar.value = _normalizedHealth;
     }
-    
+
     protected override void ChangeValue()
     {
         _healthbar.value = _normalizedHealth;
